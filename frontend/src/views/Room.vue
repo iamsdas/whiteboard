@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import { io } from "socket.io-client";
+const socket = io("http://localhost:3000");
 export default {
   name: "Room",
   data() {
@@ -48,6 +50,7 @@ export default {
         this.x = 0;
         this.y = 0;
         this.isDrawing = false;
+        socket.emit("drawing", this.$refs.canvas.toDataURL("image/png"));
       }
     }
   },
@@ -55,6 +58,14 @@ export default {
     let canvas = this.$refs.canvas;
     canvas.height = window.innerHeight * 0.9;
     canvas.width = window.innerWidth;
+    socket.on("drawing", data => {
+      let image = new Image();
+      image.src = data;
+      canvas.getContext("2d").drawImage(image, 0, 0);
+    });
+  },
+  created() {
+    socket.emit("join-room", this.$route.id);
   }
 };
 </script>
