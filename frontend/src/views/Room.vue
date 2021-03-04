@@ -5,7 +5,10 @@
       @mousemove="draw"
       @mousedown="beginDrawing"
       @mouseup="stopDrawing"
+      :width="canvasWidth"
+      :height="canvasHeight"
     />
+    <div id="bar">status : {{ connection }}</div>
   </div>
 </template>
 
@@ -17,7 +20,10 @@ export default {
       socket: null,
       x: 0,
       y: 0,
-      isDrawing: false
+      canvasWidth: 0,
+      canvasHeight: 0,
+      isDrawing: false,
+      connection: "connecting"
     };
   },
   methods: {
@@ -59,6 +65,15 @@ export default {
         ctx.drawImage(image, 0, 0);
       };
       image.src = url;
+    },
+    handleResize() {
+      let state = this.$refs.canvas.toDataURL("image/png");
+      this.canvasWidth = window.innerWidth;
+      this.canvasHeight = window.innerHeight - 20;
+      this.drawUpdate(state);
+    },
+    setConnected() {
+      this.connection = "connected";
     }
   },
   mounted() {
@@ -66,10 +81,9 @@ export default {
     this.socket = io("http://localhost:3000");
     this.socket.emit("join-room", this.$route.params.id);
     this.socket.on("drawing", this.drawUpdate);
-
-    let canvas = this.$refs.canvas;
-    canvas.height = window.innerHeight * 0.9;
-    canvas.width = window.innerWidth;
+    this.socket.on("joined", this.setConnected);
+    this.handleResize();
+    window.addEventListener("resize", this.handleResize);
   }
 };
 </script>
@@ -80,7 +94,14 @@ export default {
   height: 100vh;
   width: 100vw;
 }
+#bar {
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  height: 20px;
+}
 canvas {
   background-color: #222;
+  display: block;
 }
 </style>
