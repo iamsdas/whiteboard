@@ -8,7 +8,14 @@
       :width="canvasWidth"
       :height="canvasHeight"
     />
-    <div id="bar">status : {{ connection }}</div>
+    <div id="bar">
+      <div class="bar-item">
+        <router-link to="/">home</router-link>|
+        <a href="https://github.com/iamsdas/whiteboard">github</a>|
+        <button @click="clearCanvas">clear</button>
+      </div>
+      <div class="bar-item">status : {{ connection }}</div>
+    </div>
   </div>
 </template>
 
@@ -31,7 +38,7 @@ export default {
       let ctx = this.$refs.canvas.getContext("2d");
       ctx.beginPath();
       ctx.strokeStyle = "white";
-      ctx.lineWidth = 4;
+      ctx.lineWidth = 5;
       ctx.moveTo(x1, y1);
       ctx.lineTo(x2, y2);
       ctx.stroke();
@@ -74,6 +81,10 @@ export default {
     },
     setConnected() {
       this.connection = "connected";
+    },
+    clearCanvas() {
+      let ctx = this.$refs.canvas.getContext("2d");
+      ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     }
   },
   mounted() {
@@ -97,8 +108,26 @@ export default {
 #bar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   color: white;
   height: 20px;
+}
+.bar-item {
+  align-items: center;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+button,
+a {
+  background: none;
+  text-decoration: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  padding-right: 5px;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
 }
 canvas {
   background-color: #222;
