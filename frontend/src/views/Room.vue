@@ -37,8 +37,8 @@ export default {
     drawLine(x1, y1, x2, y2) {
       let ctx = this.$refs.canvas.getContext("2d");
       ctx.beginPath();
-      ctx.strokeStyle = "white";
-      ctx.lineWidth = 5;
+      ctx.strokeStyle = "black";
+      ctx.lineWidth = 7;
       ctx.moveTo(x1, y1);
       ctx.lineTo(x2, y2);
       ctx.stroke();
@@ -134,7 +134,7 @@ a {
   outline: inherit;
 }
 canvas {
-  background-color: #222;
+  background-color: white;
   display: block;
 }
 </style>
