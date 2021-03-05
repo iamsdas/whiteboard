@@ -89,7 +89,7 @@ export default {
   },
   mounted() {
     const io = require("socket.io-client");
-    this.socket = io("http://localhost:3000");
+    this.socket = io(process.env.VUE_APP_SERVER);
     this.socket.emit("join-room", this.$route.params.id);
     this.socket.on("drawing", this.drawUpdate);
     this.socket.on("joined", this.setConnected);
