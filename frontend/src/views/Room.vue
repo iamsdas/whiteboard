@@ -76,7 +76,7 @@ export default {
     handleResize() {
       let state = this.$refs.canvas.toDataURL("image/png");
       this.canvasWidth = window.innerWidth;
-      this.canvasHeight = window.innerHeight - 20;
+      this.canvasHeight = window.innerHeight - 25;
       this.drawUpdate(state);
     },
     setConnected() {
@@ -100,6 +100,10 @@ export default {
 </script>
 
 <style scoped>
+* {
+  padding: 0;
+  margin: 0;
+}
 #bg {
   background-color: #111;
   height: 100vh;
@@ -110,7 +114,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   color: white;
-  height: 20px;
+  height: 25px;
 }
 .bar-item {
   align-items: center;
