@@ -85,6 +85,7 @@ export default {
     clearCanvas() {
       let ctx = this.$refs.canvas.getContext("2d");
       ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+      this.socket.emit("drawing", this.$refs.canvas.toDataURL("image/png"));
     }
   },
   mounted() {
