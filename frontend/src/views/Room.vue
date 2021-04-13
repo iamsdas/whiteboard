@@ -59,8 +59,6 @@ export default {
     stopDrawing(e) {
       if (this.isDrawing) {
         this.drawLine(this.x, this.y, e.offsetX, e.offsetY);
-        this.x = 0;
-        this.y = 0;
         this.isDrawing = false;
         this.socket.emit("drawing", this.$refs.canvas.toDataURL("image/png"));
       }
@@ -96,6 +94,7 @@ export default {
     this.socket.on("joined", this.setConnected);
     this.handleResize();
     window.addEventListener("resize", this.handleResize);
+    // window.addEventListener("mouseleave", this.)
   }
 };
 </script>
