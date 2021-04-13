@@ -5,6 +5,7 @@
       @mousemove="draw"
       @mousedown="beginDrawing"
       @mouseup="stopDrawing"
+      @mouseleave="cancelDrawing"
       :width="canvasWidth"
       :height="canvasHeight"
     />
@@ -63,6 +64,9 @@ export default {
         this.socket.emit("drawing", this.$refs.canvas.toDataURL("image/png"));
       }
     },
+    cancelDrawing() {
+      this.isDrawing = false;
+    },
     drawUpdate(url) {
       let image = new Image();
       let ctx = this.$refs.canvas.getContext("2d");
@@ -94,7 +98,6 @@ export default {
     this.socket.on("joined", this.setConnected);
     this.handleResize();
     window.addEventListener("resize", this.handleResize);
-    // window.addEventListener("mouseleave", this.)
   }
 };
 </script>
